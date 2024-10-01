@@ -10,17 +10,24 @@ jupytext:
 
 # Why NNX?
 
+* Linen History
+* What is NNX?
+* Examples
+  * Inspection
+  * Running Computation
+  * State Handling
+  * Surgery
+  * JAX-like Transforms
+
 <!-- open in colab button -->
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/google/flax/blob/main/flax/nnx/docs/why.ipynb)
 
-Four years ago we developed the Flax "Linen" API to support modeling research on JAX, with a focus on scaling scaling and performance.  We've learned a lot from our users over these years.
+Four years ago we developed the Flax "Linen" API to support modeling research on JAX, with a focus on scaling scaling and performance.  We've learned a lot from our users over these years. We introduced some ideas that have proven to be good:
+ - Organizing variables into [collections](https://flax.readthedocs.io/en/latest/glossary.html#term-Variable-collections).
+ - Automatic and efficient [PRNG management](https://flax.readthedocs.io/en/latest/glossary.html#term-RNG-sequences).
+ - [Variable Metadata](https://flax.readthedocs.io/en/latest/api_reference/flax.linen/spmd.html#flax.linen.with_partitioning) for SPMD annotations, optimizer metadata, etc.
 
-We introduced some ideas that have proven to be good:
- - Organizing variables into [collections](https://flax.readthedocs.io/en/latest/glossary.html#term-Variable-collections) or types to support JAX transforms and segregation of different data types in training loops.
- - Automatic and efficient [PRNG management](https://flax.readthedocs.io/en/latest/glossary.html#term-RNG-sequences) (with support for splitting/broadcast control across map transforms)
- - [Variable Metadata](https://flax.readthedocs.io/en/latest/api_reference/flax.linen/spmd.html#flax.linen.with_partitioning) for SPMD annotations, optimizer metadata, and other uses.
-
-However, one choice we made was to use functional "define by call" semantics for NN programming via the lazy initialization of parameters.  This made for concise (`compact`) implementation code, allowed for a single specification when transforming a layer, and aligned our API with  Haiku.  Lazy initialization meant that the semantics of modules and variables in Flax were non-pythonic and often surprising.  It also led to implementation complexity and obscured the core ideas of transformations on neural nets.
+One choice we made was to use functional (`compact`) semantics for NN programming via the lazy initialization of parameters, this made for concise  implementation code and aligned our API with Haiku. However, this also meant that the semantics of modules and variables in Flax were non-pythonic and often surprising. It also led to implementation complexity and obscured the core ideas of transformations on neural nets.
 
 NNX is an attempt to keep the features that made Linen useful while introducing some new principles:
 
@@ -33,8 +40,6 @@ We'd love to hear from any of our users about their thoughts on these ideas.
 [[this doc on github](https://github.com/google/flax/blob/main/flax/nnx/docs/why.ipynb)]
 
 ```{code-cell}
-! pip install -U git+https://github.com/google/flax.git
-from functools import partial
 import jax
 from jax import random, numpy as jnp
 from flax import nnx
